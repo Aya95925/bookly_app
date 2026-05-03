@@ -5,17 +5,19 @@ import 'package:bookly_app/core/utils/app_errors.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
-abstract  final class ApiManeger {
+class ApiManeger {
   final ApiServer _apiServer;
 
   ApiManeger(this._apiServer);
 
- final String endPointNewsetBooks =
+  final String endPointNewsetBooks =
       'volumes?Filtering=free-ebooks&q=subject:Programming&Sorting=newest';
- final String endPointFeaturedBooks =
+  final String endPointFeaturedBooks =
       'volumes?Filtering=free-ebooks&q=subject:Programming';
+  final String endPointSimilerBooks =
+      'volumes?Filtering=free-ebooks&q=subject:Programming&Sorting=relevance';
 
- Future<Either<Failure, List<Item>>> fetchFeaturedBooks() async {
+  Future<Either<Failure, List<Item>>> fetchFeaturedBooks() async {
     try {
       final response = await _apiServer.getBooks(
         endPoint: endPointFeaturedBooks,
@@ -26,24 +28,42 @@ abstract  final class ApiManeger {
       return right(remoteBooks.items ?? []);
     } on DioException catch (e) {
       return left(ServerFailure.fromDioError(e));
-    } catch (e) {
-      return left(ServerFailure('Unexpected error occurred'));
+    } catch (e, stackTrace) {
+      print(e);
+      print(stackTrace);
+      return left(ServerFailure(e.toString()));
     }
   }
 
   Future<Either<Failure, List<Item>>> fetchNewestBooks() async {
     try {
-      final response = await _apiServer.getBooks(
-        endPoint: endPointNewsetBooks,
-      );
+      final response = await _apiServer.getBooks(endPoint: endPointNewsetBooks);
 
       final remoteBooks = RemoteBooks.fromJson(response);
 
       return right(remoteBooks.items ?? []);
     } on DioException catch (e) {
       return left(ServerFailure.fromDioError(e));
-    } catch (e) {
-      return left(ServerFailure('Unexpected error occurred'));
+    } catch (e, stackTrace) {
+      print(e);
+      print(stackTrace);
+      return left(ServerFailure(e.toString()));
+    }
+  }
+
+  Future<Either<Failure, List<Item>>> fetchSimilerBooks({required String categoryId}) async {
+    try {
+      final response = await _apiServer.getBooks(endPoint:'volumes?Filtering=free-ebooks&q=$categoryId&Sorting=relevance');
+
+      final remoteBooks = RemoteBooks.fromJson(response);
+
+      return right(remoteBooks.items ?? []);
+    } on DioException catch (e) {
+      return left(ServerFailure.fromDioError(e));
+    } catch (e, stackTrace) {
+      print(e);
+      print(stackTrace);
+      return left(ServerFailure(e.toString()));
     }
   }
 }

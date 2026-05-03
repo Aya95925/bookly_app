@@ -17,4 +17,9 @@ class HomeRepoImpl implements HomeRepo {
   Future<Either<Failure, List<Item>>> fetchNewestBooks() async {
     return await _apiManeger.fetchNewestBooks();
   }
+  
+  @override
+  Future<Either<Failure, List<Item>>> fetchSimilertBooks({required String categoryId}) async{
+    return await _apiManeger.fetchSimilerBooks(categoryId:categoryId);
+  }
 }
