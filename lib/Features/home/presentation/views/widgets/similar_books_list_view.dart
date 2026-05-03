@@ -1,22 +1,23 @@
-import 'package:flutter/material.dart';
 
-import 'custom_book_item.dart';
+import 'package:bookly_app/Features/home/data/repos/home_repo_impl.dart';
+import 'package:bookly_app/Features/home/presentation/cubit/fetch_similer_books/similer_books_cubit.dart';
 
-class SimilarBooksListview extends StatelessWidget {
-  const SimilarBooksListview({super.key});
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * .15,
-      child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            return const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5),
-              child: CustomBookImage(),
-            );
-          }),
+
+class SimilerBooksCubit extends Cubit<SimilerBooksState> {
+  SimilerBooksCubit({required this.homeRepoImpl}) : super(SimilerBooksInitial());
+  final HomeRepoImpl homeRepoImpl;
+  Future<void> loadNewestBooks({required String categoryId}) async {
+    emit(SimilerBooksLoading());
+    var result = await homeRepoImpl.fetchSimilertBooks(categoryId: categoryId);
+    result.fold(
+      (faulier) {
+        emit(SimilerBooksErrors(errorMessage: faulier.errorMessage));
+      },
+      (similerBooks) {
+        emit(SimilerBooksSuccess(books: similerBooks));
+      },
     );
   }
 }
