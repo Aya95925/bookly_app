@@ -3,7 +3,7 @@ import 'package:bookly_app/core/utils/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../constants.dart';
+import '../../../../../core/utils/app_constants.dart';
 import '../../../../../core/utils/assets.dart';
 import '../../../../../core/utils/styles.dart';
 import 'book_rating.dart';
@@ -49,7 +49,7 @@ class BookListViewItem extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: Styles.textStyle20.copyWith(
-                        fontFamily: kGtSectraFine,
+                        fontFamily: AppConstant.kGtSectraFine,
                       ),
                     ),
                   ),

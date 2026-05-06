@@ -1,15 +1,16 @@
-import 'package:bookly_app/constants.dart';
+import 'package:bookly_app/core/di/di.dart';
+import 'package:bookly_app/core/utils/app_constants.dart';
 import 'package:bookly_app/core/utils/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 void main() {
   runApp(const Bookly());
+  configureDependencies();
 }
 
 class Bookly extends StatelessWidget {
-  const Bookly({Key? key}) : super(key: key);
+  const Bookly({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class Bookly extends StatelessWidget {
       routerConfig: AppRouter.router,
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: kPrimaryColor,
+        scaffoldBackgroundColor: AppConstant.kPrimaryColor,
         textTheme: GoogleFonts.montserratTextTheme(ThemeData.dark().textTheme),
       ),
     );

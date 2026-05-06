@@ -1,12 +1,9 @@
-
-
-
-
 import 'package:bookly_app/Features/Splash/presentation/views/widgets/sliding_text.dart';
 import 'package:bookly_app/core/utils/app_router.dart';
 import 'package:bookly_app/core/utils/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 
 class SplashViewbody extends StatefulWidget {
   const SplashViewbody({super.key});
@@ -71,7 +68,8 @@ class _SplashViewbodyState extends State<SplashViewbody>
         //     // calculations
         //     transition: Transition.fade,
         //     duration: kTranstionDuration);
-
+       
+  
         GoRouter.of(context).push(AppRouter.kHomeView);
       },
     );
