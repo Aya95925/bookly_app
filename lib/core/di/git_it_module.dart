@@ -4,6 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @module
 abstract class GitItModule {
@@ -15,4 +16,8 @@ Connectivity creatConnectivity() => Connectivity();
     dio.interceptors.add(PrettyDioLogger(requestBody: true));
     return dio;
   }
+
+  @preResolve
+  Future<SharedPreferences> get prefs async =>
+      await SharedPreferences.getInstance();
 }

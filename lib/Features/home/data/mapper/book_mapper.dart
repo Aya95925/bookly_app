@@ -7,7 +7,7 @@ extension BookMapper on Item {
       bookId: id!,
       image: volumeInfo?.imageLinks?.thumbnail ?? '',
       title: volumeInfo?.title ?? 'No title',
-      authorName: volumeInfo?.authors,
+      authorName: volumeInfo?.authors?.cast<String>(),
 
       rating: volumeInfo?.averageRating,
       count: volumeInfo?.ratingsCount,
