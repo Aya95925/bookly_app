@@ -10,7 +10,7 @@ extension BookMapper on Item {
       authorName: volumeInfo?.authors?.cast<String>(),
 
       rating: volumeInfo?.averageRating,
-      count: volumeInfo?.ratingsCount,
+      count: volumeInfo?.ratingsCount, infoLink: volumeInfo?.infoLink,
     );
   }
 }

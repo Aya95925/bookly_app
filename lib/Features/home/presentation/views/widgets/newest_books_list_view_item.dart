@@ -1,5 +1,7 @@
 import 'package:bookly_app/Features/home/domain/entities/book_entitiy.dart';
 import 'package:bookly_app/core/utils/app_router.dart';
+import 'package:bookly_app/core/widgets/app_loading_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -24,17 +26,16 @@ class NewestBookListViewItem extends StatelessWidget {
           children: [
             AspectRatio(
               aspectRatio: 2.5 / 4,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.red,
-                  image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: NetworkImage(books.image ?? ''),
-                    // AssetImage(AssetsData.testImage),
-                  ),
-                ),
+              child:ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: CachedNetworkImage(
+                        imageUrl: books.image??'',
+                        fit: BoxFit.fill,
+                        placeholder: (context, url) => AppLoadingWidget(),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                     ),
               ),
+          
             ),
             const SizedBox(width: 30),
             Expanded(

@@ -5,6 +5,7 @@ class BookEntitiy {
   final List<String>? authorName;
   final num? count;
   final num? rating;
+  final String? infoLink;
 
   BookEntitiy({
     required this.bookId,
@@ -13,5 +14,6 @@ class BookEntitiy {
     required this.authorName,
     required this.count,
     required this.rating,
+    required this.infoLink,
   });
 }

@@ -1,16 +1,18 @@
+import 'package:bookly_app/Features/home/domain/entities/book_entitiy.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../core/widgets/custom_button.dart';
 
 class BooksAction extends StatelessWidget {
-  const BooksAction({super.key});
-
+  const BooksAction({super.key, required this.books});
+  final BookEntitiy books;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Row(
-        children: const [
+        children:  [
           Expanded(
               child: CustomButton(
             text: 'Free',
@@ -23,6 +25,16 @@ class BooksAction extends StatelessWidget {
           )),
           Expanded(
               child: CustomButton(
+                onPressed: ()async{
+                     print("BUTTON CLICKED 🔥");
+                final Uri url = Uri.parse(books.infoLink??'https://flutter.dev');
+
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(url, mode: LaunchMode.externalApplication);
+                } else {
+                  debugPrint('Cannot launch URL');
+                }
+                },
             fontSize: 16,
             text: 'Free Preview',
             backgroundColor: Color(0xffEF8262),
