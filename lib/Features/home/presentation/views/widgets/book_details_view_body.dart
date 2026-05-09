@@ -22,7 +22,7 @@ class BookDetailsViewBody extends StatelessWidget {
                const CustomBookDetailsAppBar(),
                 BookDetailsSection(books: book,),
               const  Expanded(child: SizedBox(height: 50)),
-                const SimilarBooksSection(),
+                SimilarBooksSection(cayegoryId: book.bookId,),
                const SizedBox(height: 40),
               ],
             ),

@@ -9,41 +9,68 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
 
   HomeLocalDataSourceImpl(this._sharedPrefUtils);
 
-  /// =========================
-  /// Featured Books
-  /// =========================
-
   @override
-  Future<void> cacheFeaturedBooks(List<Item> books) async {
-    await _sharedPrefUtils.saveFeaturedBooks(books);
+  Future<void> cacheFeaturedBooks(
+    List<Item> books, {
+    int pageNumber = 0,
+  }) async {
+    final oldBooks = await _sharedPrefUtils.getFeaturedBooks();
+
+    oldBooks.addAll(books);
+
+    await _sharedPrefUtils.saveFeaturedBooks(oldBooks);
   }
 
   @override
-  Future<List<Item>> getCachedFeaturedBooks() async {
-    return await _sharedPrefUtils.getFeaturedBooks();
-  }
-
-  /// =========================
-  /// Newest Books
-  /// =========================
-
-  @override
-  Future<void> cacheNewestBooks(List<Item> books) async {
-    await _sharedPrefUtils.saveNewestBooks(books);
-  }
-
-  @override
-  Future<List<Item>> getCachedNewestBooks() async {
-    return await _sharedPrefUtils.getNewestBooks();
+  Future<List<Item>> getCachedFeaturedBooks({int pageNumber = 0}) async {
+    final startIndex = pageNumber * 10;
+    final endIndex = startIndex + 10;
+    final books = await _sharedPrefUtils.getFeaturedBooks();
+    if (startIndex >= books.length) {
+      return [];
+    }
+    final safeEndIndex = endIndex > books.length ? books.length : endIndex;
+    return books.sublist(startIndex, safeEndIndex);
   }
 
   @override
-  Future<void> cacheSimilerBooks(List<Item> books) async {
-    return await _sharedPrefUtils.saveSimilerBooks(books);
+  Future<void> cacheNewestBooks(List<Item> books, {int pageNumber = 0}) async {
+    final oldBooks = await _sharedPrefUtils.getNewestBooks();
+    oldBooks.addAll(books);
+
+    await _sharedPrefUtils.saveNewestBooks(oldBooks);
   }
 
   @override
-  Future<List<Item>> getCachedSimilerBooks()async {
-   return await _sharedPrefUtils.getSimilerBooks();
+  Future<List<Item>> getCachedNewestBooks({int pageNumber = 0}) async {
+    final startIndex = pageNumber * 10;
+    final endIndex = startIndex + 10;
+    final books = await _sharedPrefUtils.getNewestBooks();
+    if (startIndex >= books.length) {
+      return [];
+    }
+    final safeIndex = endIndex > books.length ? books.length : endIndex;
+    return books.sublist(startIndex, safeIndex);
+  }
+
+  @override
+  Future<void> cacheSimilerBooks(List<Item> books, {int pageNumber = 0}) async {
+    final oldBooks = await _sharedPrefUtils.getSimilerBooks();
+    oldBooks.addAll(books);
+
+    return _sharedPrefUtils.saveSimilerBooks(oldBooks);
+  }
+
+  @override
+  Future<List<Item>> getCachedSimilerBooks({int pageNumber=0}) async {
+    final startIndex = pageNumber * 10;
+    final endIndex = startIndex + 10;
+    final books = await _sharedPrefUtils.getSimilerBooks();
+    if (startIndex >= books.length) {
+      return [];
+    }
+    final safeIndex = endIndex > books.length ? books.length : endIndex;
+    return books.sublist(startIndex, safeIndex);
+    
   }
 }

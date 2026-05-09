@@ -15,12 +15,12 @@ class HomeRepoImpl extends HomeRepo {
   HomeRepoImpl(this._remoteDataSource, this._localDataSource);
 
   @override
-  Future<Either<Failure, List<BookEntitiy>>> fetchFeaturedBooks() async {
-    var result = await _remoteDataSource.fetchFeaturedBooks();
+  Future<Either<Failure, List<BookEntitiy>>> fetchFeaturedBooks({int pageNumber=0}) async {
+    var result = await _remoteDataSource.fetchFeaturedBooks(pageNumber:pageNumber);
 
     return await result.fold(
       (failure) async {
-        final cachedBooks = await _localDataSource.getCachedFeaturedBooks();
+        final cachedBooks = await _localDataSource.getCachedFeaturedBooks(pageNumber: pageNumber);
 
         if (cachedBooks.isNotEmpty) {
           final books = cachedBooks.map((book) => book.bookEntitiy()).toList();
@@ -41,12 +41,12 @@ class HomeRepoImpl extends HomeRepo {
   }
 
   @override
-  Future<Either<Failure, List<BookEntitiy>>> fetchNewestBooks() async {
-    var result = await _remoteDataSource.fetchNewestBooks();
+  Future<Either<Failure, List<BookEntitiy>>> fetchNewestBooks({int pageNumber=0}) async {
+    var result = await _remoteDataSource.fetchNewestBooks(pageNumber: pageNumber);
 
     return await result.fold(
       (failure) async {
-        final cachedBooks = await _localDataSource.getCachedNewestBooks();
+        final cachedBooks = await _localDataSource.getCachedNewestBooks(pageNumber: pageNumber);
 
         if (cachedBooks.isNotEmpty) {
           final books = cachedBooks.map((book) => book.bookEntitiy()).toList();
@@ -69,13 +69,15 @@ class HomeRepoImpl extends HomeRepo {
   @override
   Future<Either<Failure, List<BookEntitiy>>> fetchSimilertBooks({
     String? categoryId,
+    int pageNumber=0
   }) async {
     var result = await _remoteDataSource.fetchSimilerBooks(
       categoryId: categoryId,
+      pageNumber: pageNumber
     );
-    return result.fold(
+    return await result.fold(
       (failure) async {
-        final cachedBooks = await _localDataSource.getCachedSimilerBooks();
+        final cachedBooks = await _localDataSource.getCachedSimilerBooks(pageNumber: pageNumber);
         if (cachedBooks.isNotEmpty) {
           final books = cachedBooks.map((item) => item.bookEntitiy()).toList();
           return right(books);
