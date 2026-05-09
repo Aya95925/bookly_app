@@ -3,7 +3,12 @@ import 'package:bookly_app/Features/Network/model/response/remote_books/item.dar
 abstract class HomeLocalDataSource {
   Future<void> cacheFeaturedBooks(List<Item> books);
   Future<void> cacheNewestBooks(List<Item> books);
+  Future<void> cacheSimilerBooks(List<Item> books);
+
 
   Future<List<Item>> getCachedFeaturedBooks();
   Future<List<Item>> getCachedNewestBooks();
+  Future<List<Item>> getCachedSimilerBooks();
+
+  
 }

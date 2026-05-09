@@ -36,4 +36,14 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
   Future<List<Item>> getCachedNewestBooks() async {
     return await _sharedPrefUtils.getNewestBooks();
   }
+
+  @override
+  Future<void> cacheSimilerBooks(List<Item> books) async {
+    return await _sharedPrefUtils.saveSimilerBooks(books);
+  }
+
+  @override
+  Future<List<Item>> getCachedSimilerBooks()async {
+   return await _sharedPrefUtils.getSimilerBooks();
+  }
 }

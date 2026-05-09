@@ -42,5 +42,17 @@ class ApiClient {
       return left(ServerFailure(e.toString()));
     }
     }
+    Future<Either<Failure, List<Item>>> fetchSimilerBooks({required String ?categoryId }) async {
+    try {
+      var response = await apiServer.getBooks(endPoint:'volumes?Filtering=free-ebooks&q=$categoryId&Sorting=relevance');
+      final remoteBooks = RemoteBooks.fromJson(response);
+      return right(remoteBooks.items ?? []);
+    } on DioException catch (e) {
+        return left(ServerFailure.fromDioException(e));
+    } catch (e, stackTrace) {
+     log('Error: $e', stackTrace: stackTrace);
+      return left(ServerFailure(e.toString()));
+    }
+    }
   }
 

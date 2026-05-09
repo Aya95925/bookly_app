@@ -20,13 +20,10 @@ class HomeRepoImpl extends HomeRepo {
 
     return await result.fold(
       (failure) async {
-        final cachedBooks =
-            await _localDataSource.getCachedFeaturedBooks();
+        final cachedBooks = await _localDataSource.getCachedFeaturedBooks();
 
         if (cachedBooks.isNotEmpty) {
-          final books = cachedBooks
-              .map((book) => book.bookEntitiy())
-              .toList();
+          final books = cachedBooks.map((book) => book.bookEntitiy()).toList();
 
           return Right(books);
         } else {
@@ -36,9 +33,7 @@ class HomeRepoImpl extends HomeRepo {
       (items) async {
         await _localDataSource.cacheFeaturedBooks(items);
 
-        final books = items
-            .map((item) => item.bookEntitiy())
-            .toList();
+        final books = items.map((item) => item.bookEntitiy()).toList();
 
         return Right(books);
       },
@@ -51,13 +46,10 @@ class HomeRepoImpl extends HomeRepo {
 
     return await result.fold(
       (failure) async {
-        final cachedBooks =
-            await _localDataSource.getCachedNewestBooks();
+        final cachedBooks = await _localDataSource.getCachedNewestBooks();
 
         if (cachedBooks.isNotEmpty) {
-          final books = cachedBooks
-              .map((book) => book.bookEntitiy())
-              .toList();
+          final books = cachedBooks.map((book) => book.bookEntitiy()).toList();
 
           return Right(books);
         } else {
@@ -67,11 +59,34 @@ class HomeRepoImpl extends HomeRepo {
       (items) async {
         await _localDataSource.cacheNewestBooks(items);
 
-        final books = items
-            .map((item) => item.bookEntitiy())
-            .toList();
+        final books = items.map((item) => item.bookEntitiy()).toList();
 
         return Right(books);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, List<BookEntitiy>>> fetchSimilertBooks({
+    String? categoryId,
+  }) async {
+    var result = await _remoteDataSource.fetchSimilerBooks(
+      categoryId: categoryId,
+    );
+    return result.fold(
+      (failure) async {
+        final cachedBooks = await _localDataSource.getCachedSimilerBooks();
+        if (cachedBooks.isNotEmpty) {
+          final books = cachedBooks.map((item) => item.bookEntitiy()).toList();
+          return right(books);
+        } else {
+          return left(failure);
+        }
+      },
+      (book) async {
+        await _localDataSource.cacheSimilerBooks(book);
+        final books = book.map((item) => item.bookEntitiy()).toList();
+        return right(books);
       },
     );
   }

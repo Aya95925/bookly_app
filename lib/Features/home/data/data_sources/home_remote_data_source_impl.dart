@@ -20,4 +20,9 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   Future<Either<Failure, List<Item>>> fetchNewestBooks() async {
     return await _apiClient.fetchNewestBooks();
   }
+  
+  @override
+  Future<Either<Failure, List<Item>>> fetchSimilerBooks({String? categoryId}) async{
+    return await _apiClient.fetchSimilerBooks(categoryId: categoryId);
+  }
 }

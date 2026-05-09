@@ -4,10 +4,10 @@ import 'package:bookly_app/core/widgets/app_loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'best_seller_list_view_item.dart';
+import 'newest_books_list_view_item.dart';
 
-class BestSellerListView extends StatelessWidget {
-  const BestSellerListView({super.key});
+class NewestBooks extends StatelessWidget {
+  const NewestBooks({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +17,11 @@ class BestSellerListView extends StatelessWidget {
           return ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             padding: EdgeInsets.zero,
-            itemCount: 10,
+            itemCount: state.books.length,
             itemBuilder: (context, index) {
-              return const Padding(
+              return Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
-                child: BookListViewItem(),
+                child: NewestBookListViewItem(books: state.books[index]),
               );
             },
           );

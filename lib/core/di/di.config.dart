@@ -29,10 +29,14 @@ import '../../Features/home/domain/use_cases/fetch_featured_books_use_case.dart'
     as _i315;
 import '../../Features/home/domain/use_cases/fetch_newest_books_use_case.dart'
     as _i996;
+import '../../Features/home/domain/use_cases/fetch_similer_books_use_case.dart'
+    as _i632;
 import '../../Features/home/presentation/maneger/fetch_featured_books/featured_books_cubit.dart'
     as _i784;
 import '../../Features/home/presentation/maneger/fetch_newest_books/newest_books_cubit.dart'
     as _i271;
+import '../../Features/home/presentation/maneger/fetch_similer_books/similer_books_cubit.dart'
+    as _i748;
 import '../../Features/Network/api_client/api_client.dart' as _i287;
 import '../cashe/shared_pref_utils.dart' as _i119;
 import '../utils/api_server.dart' as _i719;
@@ -75,8 +79,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i996.FetchNewestBooksUseCase>(
       () => _i996.FetchNewestBooksUseCase(gh<_i143.HomeRepo>()),
     );
+    gh.factory<_i632.FetchSimilerBooksUseCase>(
+      () => _i632.FetchSimilerBooksUseCase(gh<_i143.HomeRepo>()),
+    );
     gh.factory<_i271.NewestBooksCubit>(
       () => _i271.NewestBooksCubit(gh<_i996.FetchNewestBooksUseCase>()),
+    );
+    gh.factory<_i748.SimilerBooksCubit>(
+      () => _i748.SimilerBooksCubit(gh<_i632.FetchSimilerBooksUseCase>()),
     );
     gh.factory<_i784.FeaturedBooksCubit>(
       () => _i784.FeaturedBooksCubit(gh<_i315.FetchFeaturedBooksUseCase>()),

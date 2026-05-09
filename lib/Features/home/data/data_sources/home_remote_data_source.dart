@@ -5,4 +5,5 @@ import 'package:dartz/dartz.dart';
 abstract class HomeRemoteDataSource {
   Future<Either<Failure, List<Item>>> fetchFeaturedBooks();
   Future<Either<Failure, List<Item>>> fetchNewestBooks();
+  Future<Either<Failure, List<Item>>> fetchSimilerBooks({String?categoryId});
 }
